@@ -1,4 +1,4 @@
-﻿using FastUntility.Core.Base;
+using FastUntility.Core.Base;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -9,7 +9,7 @@ namespace Fast.Pdf
 {
     public static class FastPdf
     {
-        public static byte[] ConvertHtmlString(string html, PdfDocument doc, string fileName)
+        public static byte[] ConvertHtmlString(string html, PdfDocument doc, string fileName,bool isSave=false)
         {
             if (string.IsNullOrEmpty(html))
                 return null;
@@ -107,10 +107,13 @@ namespace Fast.Pdf
                 {
                     proc.WaitForExit();
                     var bytes = ms.ToArray();
-                    using (var fs = new FileStream(string.Format("{0}{1}.pdf", AppDomain.CurrentDomain.BaseDirectory, fileName), FileMode.OpenOrCreate))
+                    if (isSave)
                     {
-                        fs.Write(bytes, 0, bytes.Length);
-                        fs.Close();
+                        using (var fs = new FileStream(string.Format("{0}{1}.pdf", AppDomain.CurrentDomain.BaseDirectory, fileName), FileMode.OpenOrCreate))
+                        {
+                            fs.Write(bytes, 0, bytes.Length);
+                            fs.Close();
+                        }
                     }
 
                     return bytes;
@@ -118,7 +121,7 @@ namespace Fast.Pdf
             }
         }
 
-        public static byte[] ConvertHtmUrl(string url, PdfDocument doc, string fileName)
+        public static byte[] ConvertHtmUrl(string url, PdfDocument doc, string fileName, bool isSave = false)
         {
             return ConvertHtmlString(BaseUrl.GetUrl(url), doc, fileName);
         }
