@@ -15,3 +15,4 @@ Fast.pdf create pdf by wkhtmltopdf
             doc.Header.Url = "http://localhost:52711/home/header";
 
            var bytes= FastPdf.ConvertHtmlString("<body><button>测试</botton></body>", doc, "test");
+           bytes= FastPdf.ConvertHtmUrl("www.a.com", doc, "test",true);
