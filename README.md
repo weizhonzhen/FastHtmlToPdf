@@ -1,7 +1,7 @@
 # Fast.Pdf
 Fast.pdf create pdf by wkhtmltopdf
       
-           nuget url: https://www.nuget.org/packages/Fast.Data.Core/
+           nuget url: https://www.nuget.org/packages/Fast.Pdf/
 
            var doc = new PdfDocument();
             doc.DelayJavascript = 500;
