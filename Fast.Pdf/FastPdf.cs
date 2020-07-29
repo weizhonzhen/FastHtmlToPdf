@@ -1,4 +1,4 @@
-using FastUntility.Core.Base;
+﻿using FastUntility.Core.Base;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -17,6 +17,7 @@ namespace Fast.Pdf
             var exe = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "wkhtmltopdf.exe" : "wkhtmltopdf";
             var path = string.Format("{0}wwwroot\\fastpdf", System.AppDomain.CurrentDomain.BaseDirectory);
             var arguments = new StringBuilder();
+            arguments.Append("--print-media-type ");
 
             if (doc.MarginBottom != 0)
                 arguments.AppendFormat("-B {0} ", doc.MarginBottom);
@@ -43,33 +44,57 @@ namespace Fast.Pdf
 
             if (doc.DisplayHeader && doc.Header.Type == PdfEnum.Type.Url)
             {
-                arguments.AppendFormat("--header-html {0} ", doc.Header.Url);
+                arguments.AppendFormat("--allow {0} --header-html {0} ", doc.Header.Url);
+
+                if(doc.Header.Spacing!=0)
+                    arguments.AppendFormat("--header-spacing {0} ", doc.Header.Spacing);
+
+                if (doc.Header.Line)
+                    arguments.Append("--header-line  ");
             }
             else if(doc.DisplayHeader && doc.Header.Type == PdfEnum.Type.Text)
             {
                 arguments.AppendFormat("--header-{0} {1} ", doc.Header.Align.ToStr().ToLower(), doc.Header.Content.Replace(" ",""));
 
+                if (doc.Header.Spacing != 0)
+                    arguments.AppendFormat("--header-spacing {0} ", doc.Header.Spacing);
+
                 if (doc.Header.FontSize != 0)
                     arguments.AppendFormat("--header-font-size {0} ", doc.Header.FontSize);
+
+                if (doc.Header.Line)
+                    arguments.Append("--header-line  ");
             }
 
             if (doc.DisplayFooter && doc.Footer.Type == PdfEnum.Type.Url)
             {
-                arguments.AppendFormat("--footer-html {0} ", doc.Footer.Url);
+                arguments.AppendFormat("--allow {0} --footer-html {0} ", doc.Footer.Url);
+
+                if (doc.Footer.Spacing != 0)
+                    arguments.AppendFormat("--footer-spacing {0} ", doc.Footer.Spacing);
+
+                if (doc.Footer.Line)
+                    arguments.Append("--footer-line  ");
             }
             else if (doc.DisplayFooter && doc.Footer.Type == PdfEnum.Type.Text)
             {
                 arguments.AppendFormat("--footer-{0} {1} ", doc.Footer.Align.ToStr().ToLower(), doc.Footer.Content.Replace(" ", ""));
 
+                if (doc.Footer.Spacing != 0)
+                    arguments.AppendFormat("--footer-spacing {0} ", doc.Footer.Spacing);
+
                 if (doc.Footer.FontSize != 0)
                     arguments.AppendFormat("--footer-font-size {0} ", doc.Footer.FontSize);
+
+                if (doc.Footer.Line)
+                    arguments.Append("--footer-line  ");
             }
 
             arguments.Append(" - -");
 
             var proc = new Process();
             proc.StartInfo = new ProcessStartInfo();
-            proc.StartInfo.FileName = Path.Combine(path, exe);
+            proc.StartInfo.FileName = @Path.Combine(path, exe);
             proc.StartInfo.Arguments = arguments.ToString();
             proc.StartInfo.UseShellExecute = false;
             proc.StartInfo.RedirectStandardOutput = true;
@@ -77,7 +102,7 @@ namespace Fast.Pdf
             proc.StartInfo.RedirectStandardInput = true;
             proc.StartInfo.WorkingDirectory = path;
             proc.StartInfo.CreateNoWindow = true;
-
+            BaseLog.SaveLog(proc.StartInfo.FileName,"aa");
             proc.Start();
 
             using (var input = proc.StandardInput)

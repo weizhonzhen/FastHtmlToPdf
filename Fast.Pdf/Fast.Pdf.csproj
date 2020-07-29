@@ -4,9 +4,11 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <Description>Fast.pdf create pdf by wkhtmltopdf</Description>
+    <Description>Fast.pdf create pdf by wkhtmltopdf
+https://github.com/weizhonzhen/Fast.Pdf</Description>
     <RepositoryUrl>https://en.gravatar.com/userimage/151376774/1cba1ca23219db268cc5ed8abde11775.png</RepositoryUrl>
     <PackageId>Fast.Pdf</PackageId>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <ItemGroup>

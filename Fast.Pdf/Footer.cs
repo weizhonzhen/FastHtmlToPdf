@@ -13,5 +13,9 @@ namespace Fast.Pdf
         public Type Type { get; set; }
 
         public Align Align { get; set; }
+
+        public int Spacing { get; set; }
+
+        public bool Line { get; set; }
     }
 }
