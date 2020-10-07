@@ -22,3 +22,5 @@ nuget url: https://www.nuget.org/packages/Fast.HtmlToPdf
                         
                 return File(pdf.Convert(doc, html), "application/pdf");
             }
+            
+            page html must be include  "<!DOCTYPE html>"
