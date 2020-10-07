@@ -3,6 +3,9 @@ Fast.pdf create pdf by wkhtmltopdf
       
 
 nuget url: https://www.nuget.org/packages/FastHtmlToPdf/
+          
+          
+          
            using(var pdf = HtmlToPdf.Instance())
            {
                 var path = string.Format("{0}\\print.htm", System.AppDomain.CurrentDomain.BaseDirectory);
