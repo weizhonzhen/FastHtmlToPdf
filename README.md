@@ -1,5 +1,5 @@
 # FastHtmlToPdf
-Fast.pdf create pdf by wkhtmltopdf
+Fast.pdf create pdf by wkhtmltox
       
 
 nuget url: https://www.nuget.org/packages/Fast.HtmlToPdf
