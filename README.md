@@ -14,5 +14,5 @@ nuget url: https://www.nuget.org/packages/FastHtmlToPdf/
             
             using(var pdf = HtmlToPdf.Instance())
             {
-                  var bytes= pdf.Convert(doc , "<body><button>测试</botton></body>");
+                 var bytes = pdf.Convert(doc , "<body><button>测试</botton></body>");
             }
