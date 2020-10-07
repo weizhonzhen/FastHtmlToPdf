@@ -19,6 +19,9 @@ nuget url: https://www.nuget.org/packages/Fast.HtmlToPdf
                 doc.DisplayHeader = true;
                 doc.Header.Url = "http://" + HttpContext.Request.Host.Value + "/home/header";
                 doc.Header.Spacing = 10;
+                                
+                doc.MarginBottom = 50;
+                doc.MarginTop = 50;
                         
                 return File(pdf.Convert(doc, html), "application/pdf");
             }
