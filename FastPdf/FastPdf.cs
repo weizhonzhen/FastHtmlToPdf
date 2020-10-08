@@ -11,7 +11,7 @@ namespace Fast.Pdf
 {
     public static class FastPdf
     {
-        public static byte[] ConvertHtmlString(string html, PdfDocument doc, string fileName, bool isSave = false)
+        public static byte[] ConvertHtmlString(string html, PdfDocument doc)
         {
             try
             {
@@ -56,16 +56,7 @@ namespace Fast.Pdf
                         else
                         {
                             proc.WaitForExit();
-                            var bytes = ms.ToArray();
-                            if (isSave)
-                            {
-                                using (var fs = new FileStream(string.Format("{0}{1}.pdf", AppDomain.CurrentDomain.BaseDirectory, fileName), FileMode.OpenOrCreate))
-                                {
-                                    fs.Write(bytes, 0, bytes.Length);
-                                    fs.Close();
-                                }
-                            }
-                            return bytes;
+                            return ms.ToArray();
                         }
                     }
                 }
