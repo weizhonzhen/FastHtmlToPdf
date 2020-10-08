@@ -88,24 +88,24 @@ namespace Fast.Pdf
             arguments.Append("--print-media-type ");
 
             if (doc.MarginBottom != 0)
-                arguments.AppendFormat("-B {0} ", doc.MarginBottom * 25.4);
+                arguments.AppendFormat("-B {0} ", doc.MarginBottom * 0.4);
 
             if (doc.MarginLeft != 0)
-                arguments.AppendFormat("-L {0} ", doc.MarginLeft * 25.4);
+                arguments.AppendFormat("-L {0} ", doc.MarginLeft * 0.4);
 
             if (doc.MarginRight != 0)
-                arguments.AppendFormat("-R {0} ", doc.MarginRight * 25.4);
+                arguments.AppendFormat("-R {0} ", doc.MarginRight * 0.4);
 
             if (doc.MarginTop != 0)
-                arguments.AppendFormat("-T {0} ", doc.MarginTop * 25.4);
+                arguments.AppendFormat("-T {0} ", doc.MarginTop * 0.4);
 
             arguments.AppendFormat("-s {0} ", doc.Size);
 
             if (doc.Width != 0)
-                arguments.AppendFormat("--page-width {0} ", doc.Width * 25.4);
+                arguments.AppendFormat("--page-width {0} ", doc.Width * 0.4);
 
             if (doc.Height != 0)
-                arguments.AppendFormat("--page-height {0} ", doc.Height * 25.4);
+                arguments.AppendFormat("--page-height {0} ", doc.Height * 0.4);
 
             if (doc.DelayJavascript > 200)
                 arguments.AppendFormat("--javascript-delay {0} ", doc.DelayJavascript);
@@ -115,7 +115,7 @@ namespace Fast.Pdf
                 arguments.AppendFormat("--header-html {0} ", doc.Header.Url);
 
                 if (doc.Header.Spacing != 0)
-                    arguments.AppendFormat("--header-spacing {0} ", doc.Header.Spacing * 25.4);
+                    arguments.AppendFormat("--header-spacing {0} ", doc.Header.Spacing * 0.4);
 
                 if (doc.Header.Line)
                     arguments.Append("--header-line  ");
@@ -125,7 +125,7 @@ namespace Fast.Pdf
                 arguments.AppendFormat("--header-{0} {1} ", doc.Header.Align.ToString().ToLower(), doc.Header.Content.Replace(" ", ""));
 
                 if (doc.Header.Spacing != 0)
-                    arguments.AppendFormat("--header-spacing {0} ", doc.Header.Spacing * 25.4);
+                    arguments.AppendFormat("--header-spacing {0} ", doc.Header.Spacing * 0.4);
 
                 if (doc.Header.FontSize != 0)
                     arguments.AppendFormat("--header-font-size {0} ", doc.Header.FontSize);
@@ -139,7 +139,7 @@ namespace Fast.Pdf
                 arguments.AppendFormat("--footer-html {0} ", doc.Footer.Url);
 
                 if (doc.Footer.Spacing != 0)
-                    arguments.AppendFormat("--footer-spacing {0} ", doc.Footer.Spacing * 25.4);
+                    arguments.AppendFormat("--footer-spacing {0} ", doc.Footer.Spacing * 0.4);
 
                 if (doc.Footer.Line)
                     arguments.Append("--footer-line  ");
@@ -149,7 +149,7 @@ namespace Fast.Pdf
                 arguments.AppendFormat("--footer-{0} {1} ", doc.Footer.Align.ToString().ToLower(), doc.Footer.Content.Replace(" ", ""));
 
                 if (doc.Footer.Spacing != 0)
-                    arguments.AppendFormat("--footer-spacing {0} ", doc.Footer.Spacing * 25.4);
+                    arguments.AppendFormat("--footer-spacing {0} ", doc.Footer.Spacing * 0.4);
 
                 if (doc.Footer.FontSize != 0)
                     arguments.AppendFormat("--footer-font-size {0} ", doc.Footer.FontSize);
