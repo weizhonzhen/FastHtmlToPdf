@@ -9,6 +9,7 @@ https://github.com/weizhonzhen/Fast.Pdf</Description>
     <RepositoryUrl>https://en.gravatar.com/userimage/151376774/1cba1ca23219db268cc5ed8abde11775.png</RepositoryUrl>
     <PackageId>Fast.Pdf</PackageId>
     <Version>1.0.2</Version>
+    <RootNamespace>Fast.Pdf</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

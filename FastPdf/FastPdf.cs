@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace FastPdf
+namespace Fast.Pdf
 {
     public static class FastPdf
     {

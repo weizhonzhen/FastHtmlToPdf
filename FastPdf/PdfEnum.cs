@@ -1,4 +1,4 @@
-﻿namespace FastPdf
+﻿namespace Fast.Pdf
 {
     public class PdfEnum
     {
