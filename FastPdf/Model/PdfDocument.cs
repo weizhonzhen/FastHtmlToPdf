@@ -8,9 +8,9 @@ namespace Fast.Pdf
 
         public bool DisplayFooter { get; set; }
 
-        public Header Header { get; set; }
+        public Header Header { get; set; } = new Header();
 
-        public Footer Footer { get; set; }
+        public Footer Footer { get; set; } = new Footer();
 
         public int MarginTop { get; set; }
 
