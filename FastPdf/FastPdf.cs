@@ -1,5 +1,4 @@
-﻿using FastUntility.Core.Base;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
@@ -8,7 +7,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace Fast.Pdf
+namespace FastPdf
 {
     public static class FastPdf
     {
@@ -73,14 +72,8 @@ namespace Fast.Pdf
             }
             catch(Exception ex)
             {
-                BaseLog.SaveLog(ex.StackTrace + ex.Message, "HtmlToPdf");
-                return null;
+                throw new Exception(ex.StackTrace + ex.Message);
             }
-        }
-
-        public static byte[] ConvertHtmUrl(string url, PdfDocument doc, string fileName, bool isSave = false)
-        {
-            return ConvertHtmlString(BaseUrl.GetUrl(url), doc, fileName, isSave);
         }
 
         private static string HtmlEncode(string html)
@@ -138,7 +131,7 @@ namespace Fast.Pdf
             }
             else if (doc.DisplayHeader && doc.Header.Type == PdfEnum.Type.Text)
             {
-                arguments.AppendFormat("--header-{0} {1} ", doc.Header.Align.ToStr().ToLower(), doc.Header.Content.Replace(" ", ""));
+                arguments.AppendFormat("--header-{0} {1} ", doc.Header.Align.ToString().ToLower(), doc.Header.Content.Replace(" ", ""));
 
                 if (doc.Header.Spacing != 0)
                     arguments.AppendFormat("--header-spacing {0} ", doc.Header.Spacing);
@@ -162,7 +155,7 @@ namespace Fast.Pdf
             }
             else if (doc.DisplayFooter && doc.Footer.Type == PdfEnum.Type.Text)
             {
-                arguments.AppendFormat("--footer-{0} {1} ", doc.Footer.Align.ToStr().ToLower(), doc.Footer.Content.Replace(" ", ""));
+                arguments.AppendFormat("--footer-{0} {1} ", doc.Footer.Align.ToString().ToLower(), doc.Footer.Content.Replace(" ", ""));
 
                 if (doc.Footer.Spacing != 0)
                     arguments.AppendFormat("--footer-spacing {0} ", doc.Footer.Spacing);
