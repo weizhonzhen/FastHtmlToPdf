@@ -38,13 +38,13 @@ nuget url: https://www.nuget.org/packages/Fast.Pdf
             var doc = new PdfDocument();
             
             doc.DisplayFooter = true;
+            doc.Footer.Type = PdfEnum.Type.Url;
             doc.Footer.Url = "http://" + HttpContext.Request.Host.Value + "/home/footer";
-            doc.Footer.Spacing = 10;
-
+           
             doc.DisplayHeader = true;
+            doc.Header.Type = PdfEnum.Type.Url;
             doc.Header.Url = "http://" + HttpContext.Request.Host.Value + "/home/header";
-            doc.Header.Spacing = 10;
-                                
+                                           
             doc.MarginBottom = 50;
             doc.MarginTop = 50;
                         
