@@ -29,5 +29,7 @@ nuget url: https://www.nuget.org/packages/Fast.HtmlToPdf
 
 
 
-# FastHtmlToPdf
-FastHtmlToPdf create pdf by wkhtmltox
+# FastPdf
+FastPdf create pdf by wkhtmltopdf
+      
+nuget url: https://www.nuget.org/packages/Fast.Pdf
