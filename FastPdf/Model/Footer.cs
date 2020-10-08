@@ -1,6 +1,6 @@
-﻿using static FastPdf.PdfEnum;
+﻿using static Fast.Pdf.PdfEnum;
 
-namespace FastPdf
+namespace Fast.Pdf
 {
     public class Footer
     {
