@@ -8,30 +8,19 @@ namespace FastHtmlToPdf
 {
     public class HtmlToPdf : IDisposable
     {
-        private string path = string.Format("{0}{1}.pdf", Path.GetTempPath(), Guid.NewGuid().ToString());
-        private const int UseX11Graphics = 0;
-        private readonly IntPtr GlobalSettings;
-        private readonly IntPtr Converter;
-        private readonly NativeLibrary Library;
-        private readonly IntPtr ObjectSettings;
+        private int UseX11Graphics = 0;
+        private IntPtr GlobalSettings;
+        private IntPtr Converter;
+        private ZipFile zip;
+        private IntPtr ObjectSettings;
 
-        private HtmlToPdf(IntPtr _GlobalSettings, IntPtr _Converter, NativeLibrary _Library, IntPtr _ObjectSettings)
+        public HtmlToPdf()
         {
-            GlobalSettings = _GlobalSettings;
-            Converter = _Converter;
-            Library = _Library;
-            ObjectSettings = _ObjectSettings;
-        }
-
-        public static HtmlToPdf Instance()
-        {
-            var libarary = HtmlToPdfLibrary.Load();
+            zip = new ZipFile();
             Interop.HtmlToPdf.wkhtmltopdf_init(UseX11Graphics);
-            var globalSettingsPointer = Interop.HtmlToPdf.wkhtmltopdf_create_global_settings();
-            var converterPointer = Interop.HtmlToPdf.wkhtmltopdf_create_converter(globalSettingsPointer);
-            var objectSettingsPointer = Interop.HtmlToPdf.wkhtmltopdf_create_object_settings();
-
-            return new HtmlToPdf(globalSettingsPointer, converterPointer, libarary, objectSettingsPointer);
+            GlobalSettings = Interop.HtmlToPdf.wkhtmltopdf_create_global_settings();
+            Converter = Interop.HtmlToPdf.wkhtmltopdf_create_converter(GlobalSettings);
+            ObjectSettings = Interop.HtmlToPdf.wkhtmltopdf_create_object_settings();
         }
 
         public void Dispose()
@@ -39,12 +28,20 @@ namespace FastHtmlToPdf
             if (Converter != IntPtr.Zero)
                 Interop.HtmlToPdf.wkhtmltopdf_destroy_converter(Converter);
 
+            GlobalSettings = IntPtr.Zero;
+            Converter = IntPtr.Zero;
+            ObjectSettings = IntPtr.Zero;
             Interop.HtmlToPdf.wkhtmltopdf_deinit();
-            Library.Dispose();
+            zip.Dispose();
+            zip = null;
         }
 
         public byte[] Convert(PdfDocument doc, string html)
         {
+            var FilesDirectory = string.Format("{0}HtmlToPdf", Path.GetTempPath());
+            if (!Directory.Exists(FilesDirectory))
+                Directory.CreateDirectory(FilesDirectory);
+            var fileName = string.Format("{0}\\{1}.pdf", FilesDirectory, Guid.NewGuid().ToString());
             if (doc == null)
                 throw new Exception("Fast.HtmlToPdf PdfDocument is not null");
 
@@ -83,7 +80,7 @@ namespace FastHtmlToPdf
             else
                 Interop.HtmlToPdf.wkhtmltopdf_set_global_setting(GlobalSettings, "size.pageSize", "A4");
 
-            Interop.HtmlToPdf.wkhtmltopdf_set_global_setting(GlobalSettings, "out", path);
+            Interop.HtmlToPdf.wkhtmltopdf_set_global_setting(GlobalSettings, "out", fileName);
 
             if (doc.Width != 0)
                 Interop.HtmlToPdf.wkhtmltopdf_set_global_setting(GlobalSettings, "size.width", doc.Width * 0.04 + "cm");
@@ -113,10 +110,10 @@ namespace FastHtmlToPdf
             Interop.HtmlToPdf.wkhtmltopdf_add_object(Converter, ObjectSettings, html);
             Interop.HtmlToPdf.wkhtmltopdf_convert(Converter);
 
-            if (File.Exists(path))
+            if (File.Exists(fileName))
             {
-                var result = File.ReadAllBytes(path);
-                File.Delete(path);
+                var result = File.ReadAllBytes(fileName);
+                File.Delete(fileName);
                 return result;
             }
             else
