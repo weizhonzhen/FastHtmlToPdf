@@ -203,8 +203,9 @@ namespace Fast.Pdf
             {
                 var Resource = Assembly.GetExecutingAssembly().GetManifestResourceStream("Fast.Pdf.Assets.wkhtmltopdf.zip");
                 using (var zip = new ZipArchive(Resource))
-                {
-                    var entry = zip.Entries.ToList().Find(a => a.FullName == "wkhtmltopdf.exe");
+                { 
+                    var fileName = Environment.Is64BitProcess ? "wkhtmltopdf_64.exe" : "wkhtmltopdf_32.exe";
+                    var entry = zip.Entries.ToList().Find(a => a.FullName == fileName);
                     using (var stream = entry.Open())
                     {
                         var content = new byte[entry.Length];
