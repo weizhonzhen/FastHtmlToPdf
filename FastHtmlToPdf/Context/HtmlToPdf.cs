@@ -28,12 +28,15 @@ namespace FastHtmlToPdf
         {
             if (Converter != IntPtr.Zero)
                 Interop.HtmlToPdf.wkhtmltopdf_destroy_converter(Converter);
+            Interop.HtmlToPdf.wkhtmltopdf_destroy_global_settings(GlobalSettings);
+            Interop.HtmlToPdf.wkhtmltopdf_destroy_object_settings(ObjectSettings);
             Interop.HtmlToPdf.wkhtmltopdf_deinit();
             zip.Dispose();
             zip = null;
             GlobalSettings = IntPtr.Zero;
             Converter = IntPtr.Zero;
             ObjectSettings = IntPtr.Zero;
+            GC.SuppressFinalize(this);
         }
 
         public byte[] Convert(PdfDocument doc, string html)
@@ -58,8 +61,18 @@ namespace FastHtmlToPdf
                     Interop.HtmlToPdf.wkhtmltopdf_set_object_setting(ObjectSettings, "header.fontSize", doc.Header.FontSize.ToString());
                 if (doc.Header.Spacing != 0)
                     Interop.HtmlToPdf.wkhtmltopdf_set_object_setting(ObjectSettings, "header.spacing", doc.Header.Spacing.ToString());
-                if (!string.IsNullOrEmpty(doc.Header.Url))
-                    Interop.HtmlToPdf.wkhtmltopdf_set_object_setting(ObjectSettings, "header.htmlUrl", doc.Header.Url);
+                //if (!string.IsNullOrEmpty(doc.Header.Url))
+                //    Interop.HtmlToPdf.wkhtmltopdf_set_object_setting(ObjectSettings, "header.htmlUrl", doc.Header.Url); 
+                if (!string.IsNullOrEmpty(doc.Header.Center))
+                    Interop.HtmlToPdf.wkhtmltopdf_set_object_setting(ObjectSettings, "header.center", doc.Header.Center);
+                if (!string.IsNullOrEmpty(doc.Header.Left))
+                    Interop.HtmlToPdf.wkhtmltopdf_set_object_setting(ObjectSettings, "header.left", doc.Header.Left);
+                if (!string.IsNullOrEmpty(doc.Header.Right))
+                    Interop.HtmlToPdf.wkhtmltopdf_set_object_setting(ObjectSettings, "header.right", doc.Header.Right);
+                if (doc.Header.Line)
+                    Interop.HtmlToPdf.wkhtmltopdf_set_object_setting(ObjectSettings, "header.line", "true");
+                if (!string.IsNullOrEmpty(doc.Header.FontName))
+                    Interop.HtmlToPdf.wkhtmltopdf_set_object_setting(ObjectSettings, "header.fontName", doc.Header.FontName);
             }
 
             if (doc.DisplayFooter)
@@ -68,8 +81,18 @@ namespace FastHtmlToPdf
                     Interop.HtmlToPdf.wkhtmltopdf_set_object_setting(ObjectSettings, "footer.fontSize", doc.Footer.FontSize.ToString());
                 if (doc.Footer.Spacing != 0)
                     Interop.HtmlToPdf.wkhtmltopdf_set_object_setting(ObjectSettings, "footer.spacing", doc.Footer.Spacing.ToString());
-                if (!string.IsNullOrEmpty(doc.Footer.Url))
-                    Interop.HtmlToPdf.wkhtmltopdf_set_object_setting(ObjectSettings, "footer.htmlUrl", doc.Footer.Url);
+                //if (!string.IsNullOrEmpty(doc.Footer.Url))
+                //    Interop.HtmlToPdf.wkhtmltopdf_set_object_setting(ObjectSettings, "footer.htmlUrl", doc.Footer.Url);
+                if (!string.IsNullOrEmpty(doc.Footer.Center))
+                    Interop.HtmlToPdf.wkhtmltopdf_set_object_setting(ObjectSettings, "footer.center", doc.Footer.Center);
+                if (!string.IsNullOrEmpty(doc.Footer.Left))
+                    Interop.HtmlToPdf.wkhtmltopdf_set_object_setting(ObjectSettings, "footer.left", doc.Footer.Left);
+                if (!string.IsNullOrEmpty(doc.Footer.Right))
+                    Interop.HtmlToPdf.wkhtmltopdf_set_object_setting(ObjectSettings, "footer.right", doc.Footer.Right);
+                if (doc.Footer.Line)
+                    Interop.HtmlToPdf.wkhtmltopdf_set_object_setting(ObjectSettings, "footer.line", "true");
+                if (!string.IsNullOrEmpty(doc.Footer.FontName))
+                    Interop.HtmlToPdf.wkhtmltopdf_set_object_setting(ObjectSettings, "footer.fontName", doc.Footer.FontName);
             }
             #endregion
 
@@ -105,14 +128,17 @@ namespace FastHtmlToPdf
 
             Interop.HtmlToPdf.wkhtmltopdf_set_error_callback(Converter, errorCallback);
             Interop.HtmlToPdf.wkhtmltopdf_add_object(Converter, ObjectSettings, Encoding.UTF8.GetBytes(html));
-            Interop.HtmlToPdf.wkhtmltopdf_convert(Converter);
 
-            IntPtr tmp;
-            var len = Interop.HtmlToPdf.wkhtmltopdf_get_output(Converter, out tmp);
-            var result = new byte[len];
-            Marshal.Copy(tmp, result, 0, result.Length);
-
-            return result;
+            if (Interop.HtmlToPdf.wkhtmltopdf_convert(Converter))
+            {
+                IntPtr tmp;
+                var len = Interop.HtmlToPdf.wkhtmltopdf_get_output(Converter, out tmp);
+                var result = new byte[len];
+                Marshal.Copy(tmp, result, 0, result.Length); 
+                return result;
+            }
+            else
+                throw new Exception("fast html to pdf error");
         }
     }
 }
