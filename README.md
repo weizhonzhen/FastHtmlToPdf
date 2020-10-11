@@ -11,11 +11,11 @@ nuget url: https://www.nuget.org/packages/Fast.HtmlToPdf
                 var doc = new PdfDocument();
             
                 doc.DisplayFooter = true;
-                doc.Footer.Url = "http://" + HttpContext.Request.Host.Value + "/home/footer";
+                doc.Footer.Center = "Footer";
                 doc.Footer.Spacing = 10;
 
                 doc.DisplayHeader = true;
-                doc.Header.Url = "http://" + HttpContext.Request.Host.Value + "/home/header";
+                doc.Header.Center = "Header";
                 doc.Header.Spacing = 10;
                                 
                 doc.MarginBottom = 50;
@@ -24,7 +24,7 @@ nuget url: https://www.nuget.org/packages/Fast.HtmlToPdf
                 return File(pdf.Convert(doc, html), "application/pdf");
             }
             
-            page html must be include  "<!DOCTYPE html>"
+            page header html must be include  "<!DOCTYPE html>"
 
 
 
@@ -50,4 +50,4 @@ nuget url: https://www.nuget.org/packages/Fast.Pdf
                         
             return File(FastPdf.ConvertHtmlString(html,doc), "application/pdf");
                         
-            page html must be include  "<!DOCTYPE html>"
+            page html Header must be include  "<!DOCTYPE html>"
