@@ -17,7 +17,9 @@ namespace FastHtmlToPdf
 
         public HtmlToPdf()
         {
+            //Unable to find an entry point named 'wkhtmltopdf_deinit' in DLL 'wkhtmltox.dll'.
             zip = new ZipFile();
+            Interop.HtmlToPdf.wkhtmltopdf_init(0);
             GlobalSettings = Interop.HtmlToPdf.wkhtmltopdf_create_global_settings();
             Converter = Interop.HtmlToPdf.wkhtmltopdf_create_converter(GlobalSettings);
             ObjectSettings = Interop.HtmlToPdf.wkhtmltopdf_create_object_settings();
@@ -27,9 +29,9 @@ namespace FastHtmlToPdf
         {
             if (Converter != IntPtr.Zero)
                 Interop.HtmlToPdf.wkhtmltopdf_destroy_converter(Converter);
+            Interop.HtmlToPdf.wkhtmltopdf_deinit();
             zip.Dispose();
             zip = null;
-            Interop.HtmlToPdf.wkhtmltopdf_deinit();
             GlobalSettings = IntPtr.Zero;
             Converter = IntPtr.Zero;
             ObjectSettings = IntPtr.Zero;
