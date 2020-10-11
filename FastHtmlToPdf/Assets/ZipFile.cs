@@ -31,6 +31,7 @@ namespace FastHtmlToPdf.Assets
                 Kernel32.FreeLibrary(LibHandle);
                 Kernel32.FreeLibrary(LibHandle);
                 LibHandle = IntPtr.Zero;
+                GC.SuppressFinalize(this);
             }
         }
 
