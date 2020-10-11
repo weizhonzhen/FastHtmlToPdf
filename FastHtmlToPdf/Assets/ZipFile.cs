@@ -9,7 +9,7 @@ namespace FastHtmlToPdf.Assets
 {
     internal class ZipFile
     {
-        private string Filename = "wkhtmltox.dll";
+        private string FileName = "wkhtmltox.dll";
         private string LibraryFilename32 = "wkhtmltox_32.dll";
         private string LibraryFilename64 = "wkhtmltox_64.dll";
         private IntPtr LibHandle;
@@ -28,6 +28,7 @@ namespace FastHtmlToPdf.Assets
         {
             if (LibHandle != IntPtr.Zero)
             {
+                Kernel32.FreeLibrary(LibHandle);
                 Kernel32.FreeLibrary(LibHandle);
                 LibHandle = IntPtr.Zero;
             }
@@ -55,7 +56,7 @@ namespace FastHtmlToPdf.Assets
         {
             get
             {
-                return Path.Combine(FilesDirectory, Filename);
+                return Path.Combine(FilesDirectory, FileName);
             }
         }
 
