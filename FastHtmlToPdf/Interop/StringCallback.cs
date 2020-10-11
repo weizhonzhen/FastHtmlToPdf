@@ -4,5 +4,5 @@ using System.Runtime.InteropServices;
 namespace FastHtmlToPdf.Interop
 {
     [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-    public delegate void StringCallback(IntPtr converter, [MarshalAs(UnmanagedType.LPStr)]String str);
+    public delegate void StringCallback(IntPtr converter, [MarshalAs(UnmanagedType.LPStr)] string str);
 }
