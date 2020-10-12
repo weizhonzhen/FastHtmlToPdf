@@ -32,11 +32,13 @@ nuget url: https://www.nuget.org/packages/Fast.HtmlToPdf
                 var path = string.Format("{0}\\print.htm", System.AppDomain.CurrentDomain.BaseDirectory);
                 var html = System.IO.File.ReadAllText(path);
 
-                var doc = new ImageDocument();
-                doc.MarginLeft = 50;
-                doc.MarginTop = 50;
+                 var doc = new ImageDocument();
+                doc.Width = 1000;
+                doc.Height = 800;
+                doc.Format = FormatEnum.png;
+
                 var bytes = img.Convert(doc, html);
-                return File(bytes, "image/jpeg");
+                return File(bytes, "image/png");
             }
 
 
