@@ -4,11 +4,11 @@ namespace FastHtmlToPdf.Model
 {
     public class ImageDocument
     {
-        public int MarginTop { get; set; }
+        //public int MarginTop { get; set; }
 
-        public int MarginLeft { get; set; }
+        //public int MarginLeft { get; set; }
 
-        public int Height { get; set; } 
+        public int Height { get; set; }
 
         public int Width { get; set; }
 
@@ -18,9 +18,8 @@ namespace FastHtmlToPdf.Model
 
         public FormatEnum Format { get; set; } = FormatEnum.jpg;
 
-        public int ScreenWidth { get; set; } = 800;
+        public bool SmartWidth { get; set; }
 
-        public bool smartWidth { get; set; }
-
+        public bool Transparent { get; set; }
     }
 }
