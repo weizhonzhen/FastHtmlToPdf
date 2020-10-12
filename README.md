@@ -26,6 +26,18 @@ nuget url: https://www.nuget.org/packages/Fast.HtmlToPdf
             
             page header html must be include  "<!DOCTYPE html>"
 
+            //html to image
+             using (var img = new HtmlToImage())
+            {
+                var path = string.Format("{0}\\print.htm", System.AppDomain.CurrentDomain.BaseDirectory);
+                var html = System.IO.File.ReadAllText(path);
+
+                var doc = new ImageDocument();
+                doc.MarginLeft = 50;
+                doc.MarginTop = 50;
+                var bytes = img.Convert(doc, html);
+                return File(bytes, "image/jpeg");
+            }
 
 
 # FastPdf
