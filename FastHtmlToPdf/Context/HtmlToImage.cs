@@ -46,22 +46,25 @@ namespace FastHtmlToPdf.Context
             Interop.HtmlToImage.wkhtmltoimage_set_global_setting(GlobalSettings, "load.debugJavascript", "true");
 
             if (doc.Width != 0)
-                Interop.HtmlToImage.wkhtmltoimage_set_global_setting(GlobalSettings, "crop.width", doc.Width.ToString());
+                Interop.HtmlToImage.wkhtmltoimage_set_global_setting(GlobalSettings, "screenWidth", doc.Width.ToString());
 
             if (doc.Height != 0)
-                Interop.HtmlToImage.wkhtmltoimage_set_global_setting(GlobalSettings, "crop.height", doc.Height.ToString());
+                Interop.HtmlToImage.wkhtmltoimage_set_global_setting(GlobalSettings, "screenHeight", doc.Height.ToString());
 
-            if (doc.MarginTop != 0)
-                Interop.HtmlToImage.wkhtmltoimage_set_global_setting(GlobalSettings, "crop.top", doc.MarginTop.ToString());
+            //if (doc.MarginTop != 0)
+            //    Interop.HtmlToImage.wkhtmltoimage_set_global_setting(GlobalSettings, "crop.top", doc.MarginTop.ToString());
 
-            if (doc.MarginLeft != 0)
-                Interop.HtmlToImage.wkhtmltoimage_set_global_setting(GlobalSettings, "crop.left", doc.MarginLeft.ToString());
+            //if (doc.MarginLeft != 0)
+            //    Interop.HtmlToImage.wkhtmltoimage_set_global_setting(GlobalSettings, "crop.left", doc.MarginLeft.ToString());
 
             //Interop.HtmlToImage.wkhtmltoimage_set_global_setting(GlobalSettings, "in", doc.Url);
             Interop.HtmlToImage.wkhtmltoimage_set_global_setting(GlobalSettings, "fmt", doc.Format.ToString());
-            Interop.HtmlToImage.wkhtmltoimage_set_global_setting(GlobalSettings, "screenWidth", doc.ScreenWidth.ToString());
-            if (doc.smartWidth)
+            if (doc.SmartWidth)
                 Interop.HtmlToImage.wkhtmltoimage_set_global_setting(GlobalSettings, "smartWidth", "true");
+
+            if ((doc.Format == FormatEnum.png|| doc.Format == FormatEnum.svg) && doc.Transparent)
+                Interop.HtmlToImage.wkhtmltoimage_set_global_setting(GlobalSettings, "transparent", "true");
+
             #endregion
 
             StringCallback errorCallback = (converter, errorText) =>
