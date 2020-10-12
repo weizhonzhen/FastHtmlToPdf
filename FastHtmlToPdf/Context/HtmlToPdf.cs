@@ -41,9 +41,6 @@ namespace FastHtmlToPdf
 
         public byte[] Convert(PdfDocument doc, string html)
         {
-            var FilesDirectory = string.Format("{0}HtmlToPdf", Path.GetTempPath());
-            if (!Directory.Exists(FilesDirectory))
-                Directory.CreateDirectory(FilesDirectory);
             if (doc == null)
                 throw new Exception("Fast.HtmlToPdf PdfDocument is not null");
 
@@ -127,18 +124,18 @@ namespace FastHtmlToPdf
             };
 
             Interop.HtmlToPdf.wkhtmltopdf_set_error_callback(Converter, errorCallback);
-            Interop.HtmlToPdf.wkhtmltopdf_add_object(Converter, ObjectSettings, Encoding.UTF8.GetBytes(html));
+            Interop.HtmlToPdf.wkhtmltopdf_add_object(Converter, ObjectSettings, Encoding.Default.GetBytes(html));
 
-            if (Interop.HtmlToPdf.wkhtmltopdf_convert(Converter))
+            if (Interop.HtmlToPdf.wkhtmltopdf_convert(Converter) != 0)
             {
                 IntPtr tmp;
                 var len = Interop.HtmlToPdf.wkhtmltopdf_get_output(Converter, out tmp);
                 var result = new byte[len];
-                Marshal.Copy(tmp, result, 0, result.Length); 
+                Marshal.Copy(tmp, result, 0, result.Length);
                 return result;
             }
             else
-                throw new Exception("fast html to pdf error");
+                throw new Exception("FastHtmlToPdf error");
         }
     }
 }
