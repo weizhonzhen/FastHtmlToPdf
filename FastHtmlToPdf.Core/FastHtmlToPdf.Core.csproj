@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RepositoryUrl>https://en.gravatar.com/userimage/151376774/1cba1ca23219db268cc5ed8abde11775.png</RepositoryUrl>
+    <Description>FastHtmlToPdf create pdf by wkhtmltox
+https://github.com/weizhonzhen/FastHtmlToPdf</Description>
+    <PackageId>Fast.HtmlToPdf.core</PackageId>
+    <Company>Fast.HtmlToPdf.Core</Company>
+    <Product>Fast.HtmlToPdf.Core</Product>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <AssemblyName>FastHtmlToPdf.Core</AssemblyName>
+    <RootNamespace>FastHtmlToPdf.Core</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Assets\wkhtmltox.zip" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\wkhtmltox.zip" />
+  </ItemGroup>
+
+</Project>
