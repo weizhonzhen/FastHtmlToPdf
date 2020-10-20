@@ -1,31 +1,62 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <RepositoryUrl>https://en.gravatar.com/userimage/151376774/1cba1ca23219db268cc5ed8abde11775.png</RepositoryUrl>
-    <Description>Fast.pdf create pdf by wkhtmltox
-
-https://github.com/weizhonzhen/FastHtmlToPdf</Description>
-    <PackageId>Fast.HtmlToPdf</PackageId>
-    <Company>Fast.HtmlToPdf</Company>
-    <Product>Fast.HtmlToPdf</Product>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{51138D7C-5E35-4E49-B1A3-1D96C252576C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>FastHtmlToPdf</RootNamespace>
+    <AssemblyName>FastHtmlToPdf</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Remove="Assets\wkhtmltox.zip" />
-  </ItemGroup>
-
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <EmbeddedResource Include="Assets\wkhtmltox.zip" />
   </ItemGroup>
-
+  <ItemGroup>
+    <Compile Include="Assets\ZipFile.cs" />
+    <Compile Include="Context\FormatEnum.cs" />
+    <Compile Include="Context\HtmlToImage.cs" />
+    <Compile Include="Context\HtmlToPdf.cs" />
+    <Compile Include="Interop\HtmlToImage.cs" />
+    <Compile Include="Interop\HtmlToPdf.cs" />
+    <Compile Include="Interop\IntCallback.cs" />
+    <Compile Include="Interop\Kernel32.cs" />
+    <Compile Include="Interop\StringCallback.cs" />
+    <Compile Include="Interop\UTF8Marshaller.cs" />
+    <Compile Include="Model\Footer.cs" />
+    <Compile Include="Model\Header.cs" />
+    <Compile Include="Model\ImageDocument.cs" />
+    <Compile Include="Model\PdfDocument.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.IO.Compression" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
