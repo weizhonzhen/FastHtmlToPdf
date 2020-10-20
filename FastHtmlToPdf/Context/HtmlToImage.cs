@@ -62,7 +62,7 @@ namespace FastHtmlToPdf.Context
             if (doc.SmartWidth)
                 Interop.HtmlToImage.wkhtmltoimage_set_global_setting(GlobalSettings, "smartWidth", "true");
 
-            if ((doc.Format == FormatEnum.png|| doc.Format == FormatEnum.svg) && doc.Transparent)
+            if ((doc.Format == FormatEnum.png || doc.Format == FormatEnum.svg) && doc.Transparent)
                 Interop.HtmlToImage.wkhtmltoimage_set_global_setting(GlobalSettings, "transparent", "true");
 
             #endregion
@@ -72,7 +72,7 @@ namespace FastHtmlToPdf.Context
                 throw new Exception(errorText);
             };
 
-            Converter = Interop.HtmlToImage.wkhtmltoimage_create_converter(GlobalSettings, Encoding.Default.GetBytes(html));
+            Converter = Interop.HtmlToImage.wkhtmltoimage_create_converter(GlobalSettings, Encoding.UTF8.GetBytes(html));
             Interop.HtmlToImage.wkhtmltoimage_set_error_callback(Converter, errorCallback);
 
             if (Interop.HtmlToImage.wkhtmltoimage_convert(Converter) != 0)

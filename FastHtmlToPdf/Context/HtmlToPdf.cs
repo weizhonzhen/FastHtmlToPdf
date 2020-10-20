@@ -2,7 +2,6 @@
 using FastHtmlToPdf.Interop;
 using FastHtmlToPdf.Model;
 using System;
-using System.IO;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -124,7 +123,7 @@ namespace FastHtmlToPdf
             };
 
             Interop.HtmlToPdf.wkhtmltopdf_set_error_callback(Converter, errorCallback);
-            Interop.HtmlToPdf.wkhtmltopdf_add_object(Converter, ObjectSettings, Encoding.Default.GetBytes(html));
+            Interop.HtmlToPdf.wkhtmltopdf_add_object(Converter, ObjectSettings, Encoding.UTF8.GetBytes(html));
 
             if (Interop.HtmlToPdf.wkhtmltopdf_convert(Converter) != 0)
             {
