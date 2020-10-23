@@ -5,9 +5,9 @@ using System;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace FastHtmlToPdf
+namespace FastHtmlToPdf.Context
 {
-    public class HtmlToPdf : IDisposable
+    internal class HtmlToPdf : MarshalByRefObject, IDisposable
     {
         private IntPtr GlobalSettings;
         private IntPtr Converter;
@@ -57,8 +57,8 @@ namespace FastHtmlToPdf
                     Interop.HtmlToPdf.wkhtmltopdf_set_object_setting(ObjectSettings, "header.fontSize", doc.Header.FontSize.ToString());
                 if (doc.Header.Spacing != 0)
                     Interop.HtmlToPdf.wkhtmltopdf_set_object_setting(ObjectSettings, "header.spacing", doc.Header.Spacing.ToString());
-                //if (!string.IsNullOrEmpty(doc.Header.Url))
-                //    Interop.HtmlToPdf.wkhtmltopdf_set_object_setting(ObjectSettings, "header.htmlUrl", doc.Header.Url); 
+                if (!string.IsNullOrEmpty(doc.Header.Url))
+                    Interop.HtmlToPdf.wkhtmltopdf_set_object_setting(ObjectSettings, "header.htmlUrl", doc.Header.Url);
                 if (!string.IsNullOrEmpty(doc.Header.Center))
                     Interop.HtmlToPdf.wkhtmltopdf_set_object_setting(ObjectSettings, "header.center", doc.Header.Center);
                 if (!string.IsNullOrEmpty(doc.Header.Left))
@@ -131,6 +131,7 @@ namespace FastHtmlToPdf
                 var len = Interop.HtmlToPdf.wkhtmltopdf_get_output(Converter, out tmp);
                 var result = new byte[len];
                 Marshal.Copy(tmp, result, 0, result.Length);
+                tmp = IntPtr.Zero;
                 return result;
             }
             else
