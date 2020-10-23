@@ -11,6 +11,7 @@
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -36,12 +37,17 @@
   <PropertyGroup>
     <StartupObject />
   </PropertyGroup>
+  <PropertyGroup>
+    <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
+  </PropertyGroup>
   <ItemGroup>
     <EmbeddedResource Include="Assets\wkhtmltox.zip" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\ZipFile.cs" />
-    <Compile Include="Context\FormatEnum.cs" />
+    <Compile Include="HtmlToImage.cs" />
+    <Compile Include="HtmlToPdf.cs" />
+    <Compile Include="FormatEnum.cs" />
     <Compile Include="Context\HtmlToImage.cs" />
     <Compile Include="Context\HtmlToPdf.cs" />
     <Compile Include="Interop\HtmlToImage.cs" />
@@ -56,6 +62,7 @@
     <Compile Include="Model\PdfDocument.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="System" />
     <Reference Include="System.IO.Compression" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
