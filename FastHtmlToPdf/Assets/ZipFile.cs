@@ -7,7 +7,7 @@ using System.Reflection;
 
 namespace FastHtmlToPdf.Assets
 {
-    internal class ZipFile
+    internal class ZipFile : MarshalByRefObject
     {
         private string FileName = "wkhtmltox.dll";
         private string LibraryFilename32 = "wkhtmltox_32.dll";
@@ -28,7 +28,6 @@ namespace FastHtmlToPdf.Assets
         {
             if (LibHandle != IntPtr.Zero)
             {
-                Kernel32.FreeLibrary(LibHandle);
                 Kernel32.FreeLibrary(LibHandle);
                 LibHandle = IntPtr.Zero;
                 GC.SuppressFinalize(this);
