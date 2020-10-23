@@ -1,6 +1,8 @@
-﻿namespace FastHtmlToPdf.Model
+﻿using System;
+
+namespace FastHtmlToPdf.Model
 {
-    public class Footer
+    public class Footer: MarshalByRefObject
     {
         public int FontSize { get; set; }
 
