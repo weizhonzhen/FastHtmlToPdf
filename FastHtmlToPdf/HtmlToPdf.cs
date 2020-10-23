@@ -11,6 +11,7 @@ namespace FastHtmlToPdf
         public HtmlToPdf()
         {
             var setup = AppDomain.CurrentDomain.SetupInformation;
+            setup.ShadowCopyFiles = "true";
             setup.LoaderOptimization = LoaderOptimization.SingleDomain;
             domain = AppDomain.CreateDomain(Guid.NewGuid().ToString(), null, setup);
             var handle = Activator.CreateInstanceFrom(domain, typeof(Context.HtmlToPdf).Assembly.Location, typeof(Context.HtmlToPdf).FullName);
@@ -26,8 +27,8 @@ namespace FastHtmlToPdf
 
         private void DomainUnload(object sender, EventArgs e)
         {
+            AppDomain.Unload(domain);
             pdf.Dispose();
-            AppDomain.Unload(domain);          
         }
     }
 }

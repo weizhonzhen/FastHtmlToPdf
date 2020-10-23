@@ -26,8 +26,8 @@ namespace FastHtmlToPdf
 
         private void DomainUnload(object sender, EventArgs e)
         {
-            pdf.Dispose();
             AppDomain.Unload(domain);
+            pdf.Dispose();
         }
     }
 }
