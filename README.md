@@ -9,13 +9,19 @@ nuget url: https://www.nuget.org/packages/Fast.HtmlToPdf
                 var path = string.Format("{0}\\print.htm", System.AppDomain.CurrentDomain.BaseDirectory);
                 var html = System.IO.File.ReadAllText(path);
                 var doc = new PdfDocument();
+                doc.MarginBottom = 100;
+                doc.MarginTop = 100;
             
                 doc.DisplayFooter = true;
-                doc.Footer.Center = "Footer";
+                doc.Footer.Url = "www.a.com"; //in FastHtmltoPdf, but not in FastHtmltoPdf.Core
+                //doc.Footer.Center = "Footer";
+                doc.Footer.Spacing = 10;
                 doc.Footer.Spacing = 10;
 
                 doc.DisplayHeader = true;
+                doc.Header.Url = "www.a.com"; //in FastHtmltoPdf, but not in FastHtmltoPdf.Core
                 doc.Header.Center = "Header";
+                doc.Header.Spacing = 10;
                 doc.Header.Spacing = 10;
                                 
                 doc.MarginBottom = 50;
