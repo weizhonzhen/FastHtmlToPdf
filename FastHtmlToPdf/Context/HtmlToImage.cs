@@ -81,6 +81,7 @@ namespace FastHtmlToPdf.Context
                 var len = Interop.HtmlToImage.wkhtmltoimage_get_output(Converter, out tmp);
                 var result = new byte[len];
                 Marshal.Copy(tmp, result, 0, result.Length);
+                tmp = IntPtr.Zero;
                 return result;
             }
             else
