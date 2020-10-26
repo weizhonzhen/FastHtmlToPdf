@@ -11,6 +11,7 @@ https://github.com/weizhonzhen/FastHtmlToPdf</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <AssemblyName>FastHtmlToPdf.Core</AssemblyName>
     <RootNamespace>FastHtmlToPdf.Core</RootNamespace>
+    <Version>1.0.1</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -27,6 +28,10 @@ https://github.com/weizhonzhen/FastHtmlToPdf</Description>
 
   <ItemGroup>
     <EmbeddedResource Include="Assets\wkhtmltox.zip" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Runtime.Loader" Version="4.3.0" />
   </ItemGroup>
 
 </Project>
