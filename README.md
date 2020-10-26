@@ -13,11 +13,11 @@ nuget url: https://www.nuget.org/packages/Fast.HtmlToPdf
                 doc.MarginTop = 50;
             
                 doc.DisplayFooter = true;
-                doc.Footer.Url = "www.a.com"; //in FastHtmltoPdf, but not in FastHtmltoPdf.Core
+                doc.Footer.Url = "www.a.com";
                 doc.Footer.Spacing = 10;
 
                 doc.DisplayHeader = true;
-                doc.Header.Url = "www.a.com"; //in FastHtmltoPdf, but not in FastHtmltoPdf.Core
+                doc.Header.Url = "www.a.com"; 
                 doc.Header.Spacing = 10;
                                                        
                 return File(pdf.Convert(doc, html), "application/pdf");
