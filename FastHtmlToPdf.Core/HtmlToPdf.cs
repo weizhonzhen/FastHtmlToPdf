@@ -33,7 +33,7 @@ namespace FastHtmlToPdf.Core
                     return pdf.Convert(doc, html);
                 }
             }
-            return null;
+            throw new Exception("Convert error");
         }
 
         protected override Assembly Load(AssemblyName assemblyName)
