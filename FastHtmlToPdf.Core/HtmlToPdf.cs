@@ -8,6 +8,7 @@ namespace FastHtmlToPdf.Core
 {
     public class HtmlToPdf : AssemblyLoadContext
     {
+        private Context.HtmlToPdf pdf;
         private AssemblyLoadContext context;
         private Assembly assembly;
         public HtmlToPdf()
@@ -19,6 +20,7 @@ namespace FastHtmlToPdf.Core
 
         private void Context_Unloading(AssemblyLoadContext obj)
         {
+            pdf.Dispose();
             assembly = null;
             context = null;
         }
@@ -29,7 +31,7 @@ namespace FastHtmlToPdf.Core
             {
                 if (info.FullName == "FastHtmlToPdf.Core.Context.HtmlToPdf")
                 {
-                    var pdf = Activator.CreateInstance(info) as Context.HtmlToPdf;
+                    pdf = Activator.CreateInstance(info) as Context.HtmlToPdf;
                     return pdf.Convert(doc, html);
                 }
             }

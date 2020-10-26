@@ -8,6 +8,7 @@ namespace FastHtmlToPdf.Core
 {
     public class HtmlToImage : AssemblyLoadContext
     {
+        private Context.HtmlToImage pdf;
         private AssemblyLoadContext context;
         private Assembly assembly;
         public HtmlToImage()
@@ -19,6 +20,7 @@ namespace FastHtmlToPdf.Core
 
         private void Context_Unloading(AssemblyLoadContext obj)
         {
+            pdf.Dispose();
             assembly = null;
             context = null;
         }
@@ -29,11 +31,11 @@ namespace FastHtmlToPdf.Core
             {
                 if (info.FullName == "FastHtmlToPdf.Core.Context.HtmlToImage")
                 {
-                    var pdf = Activator.CreateInstance(info) as Context.HtmlToImage;
+                    pdf = Activator.CreateInstance(info) as Context.HtmlToImage;
                     return pdf.Convert(doc, html);
                 }
             }
-            return null;
+            throw new Exception("Convert error");
         }
 
         protected override Assembly Load(AssemblyName assemblyName)
