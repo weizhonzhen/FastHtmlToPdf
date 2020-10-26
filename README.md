@@ -23,7 +23,7 @@ nuget url: https://www.nuget.org/packages/Fast.HtmlToPdf
                 return File(pdf.Convert(doc, html), "application/pdf");
             }
             
-            page header html must be include  "<!DOCTYPE html>"
+            page html must be include  "<!DOCTYPE html>"
 
             //html to image
              using (var img = new HtmlToImage())
@@ -63,4 +63,4 @@ nuget url: https://www.nuget.org/packages/Fast.Pdf
                         
             return File(FastPdf.ConvertHtmlString(html,doc), "application/pdf");
                         
-            page html Header must be include  "<!DOCTYPE html>"
+            page html must be include  "<!DOCTYPE html>"
