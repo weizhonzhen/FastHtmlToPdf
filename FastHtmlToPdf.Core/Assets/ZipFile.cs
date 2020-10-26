@@ -1,13 +1,13 @@
-using FastHtmlToPdf.Core.Interop;
+using FastHtmlToPdf.Interop;
 using System;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
 
-namespace FastHtmlToPdf.Core.Assets
+namespace FastHtmlToPdf.Assets
 {
-    internal class ZipFile
+    internal class ZipFile : MarshalByRefObject
     {
         private string FileName = "wkhtmltox.dll";
         private string LibraryFilename32 = "wkhtmltox_32.dll";
@@ -19,6 +19,11 @@ namespace FastHtmlToPdf.Core.Assets
             if (!File.Exists(FullPath))
                 Create();
 
+            (new DirectoryInfo(FilesDirectory)).GetFileSystemInfos().ToList().ForEach(a => {
+                if (a is FileInfo && a.FullName == FileName && ((FileInfo)a).Length == 0)
+                    Create();
+            });
+
             LibHandle = Kernel32.LoadLibrary(FullPath);
             if (LibHandle == IntPtr.Zero)
                 throw new Exception(string.Format("FastHtmlToPdf Failed to load {0}", FullPath));
@@ -28,7 +33,6 @@ namespace FastHtmlToPdf.Core.Assets
         {
             if (LibHandle != IntPtr.Zero)
             {
-                Kernel32.FreeLibrary(LibHandle);
                 Kernel32.FreeLibrary(LibHandle);
                 LibHandle = IntPtr.Zero;
                 GC.SuppressFinalize(this);
@@ -85,7 +89,7 @@ namespace FastHtmlToPdf.Core.Assets
                 if (Environment.OSVersion.Platform != PlatformID.Win32NT)
                     throw new Exception(String.Format("Platform {0} is not supported", platform));
 
-                var resource = Assembly.GetExecutingAssembly().GetManifestResourceStream("FastHtmlToPdf.Core.Assets.wkhtmltox.zip");
+                var resource = Assembly.GetExecutingAssembly().GetManifestResourceStream("FastHtmlToPdf.Assets.wkhtmltox.zip");
                 using (var zip = new ZipArchive(resource))
                 {
                     var fileName = Environment.Is64BitProcess ? LibraryFilename64 : LibraryFilename32;
