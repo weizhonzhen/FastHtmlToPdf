@@ -7,7 +7,7 @@ using System.Text;
 
 namespace FastHtmlToPdf.Core.Context
 {
-    public class HtmlToImage : IDisposable
+    internal class HtmlToImage : IDisposable
     {
         private IntPtr GlobalSettings;
         private IntPtr Converter;

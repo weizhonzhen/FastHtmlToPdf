@@ -5,9 +5,9 @@ using System;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace FastHtmlToPdf.Core
+namespace FastHtmlToPdf.Core.Context
 {
-    public class HtmlToPdf : IDisposable
+    internal class HtmlToPdf : IDisposable
     {
         private IntPtr GlobalSettings;
         private IntPtr Converter;
@@ -57,8 +57,8 @@ namespace FastHtmlToPdf.Core
                     Interop.HtmlToPdf.wkhtmltopdf_set_object_setting(ObjectSettings, "header.fontSize", doc.Header.FontSize.ToString());
                 if (doc.Header.Spacing != 0)
                     Interop.HtmlToPdf.wkhtmltopdf_set_object_setting(ObjectSettings, "header.spacing", doc.Header.Spacing.ToString());
-                //if (!string.IsNullOrEmpty(doc.Header.Url))
-                //    Interop.HtmlToPdf.wkhtmltopdf_set_object_setting(ObjectSettings, "header.htmlUrl", doc.Header.Url); 
+                if (!string.IsNullOrEmpty(doc.Header.Url))
+                    Interop.HtmlToPdf.wkhtmltopdf_set_object_setting(ObjectSettings, "header.htmlUrl", doc.Header.Url);
                 if (!string.IsNullOrEmpty(doc.Header.Center))
                     Interop.HtmlToPdf.wkhtmltopdf_set_object_setting(ObjectSettings, "header.center", doc.Header.Center);
                 if (!string.IsNullOrEmpty(doc.Header.Left))
@@ -77,8 +77,8 @@ namespace FastHtmlToPdf.Core
                     Interop.HtmlToPdf.wkhtmltopdf_set_object_setting(ObjectSettings, "footer.fontSize", doc.Footer.FontSize.ToString());
                 if (doc.Footer.Spacing != 0)
                     Interop.HtmlToPdf.wkhtmltopdf_set_object_setting(ObjectSettings, "footer.spacing", doc.Footer.Spacing.ToString());
-                //if (!string.IsNullOrEmpty(doc.Footer.Url))
-                //    Interop.HtmlToPdf.wkhtmltopdf_set_object_setting(ObjectSettings, "footer.htmlUrl", doc.Footer.Url);
+                if (!string.IsNullOrEmpty(doc.Footer.Url))
+                    Interop.HtmlToPdf.wkhtmltopdf_set_object_setting(ObjectSettings, "footer.htmlUrl", doc.Footer.Url);
                 if (!string.IsNullOrEmpty(doc.Footer.Center))
                     Interop.HtmlToPdf.wkhtmltopdf_set_object_setting(ObjectSettings, "footer.center", doc.Footer.Center);
                 if (!string.IsNullOrEmpty(doc.Footer.Left))
