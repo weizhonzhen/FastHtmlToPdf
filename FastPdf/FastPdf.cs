@@ -4,14 +4,14 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Text;
 
 namespace Fast.Pdf
 {
     public static class FastPdf
     {
-        public static byte[] ConvertHtmlString(string html, PdfDocument doc)
+        private static string FileName = "wkhtmltopdf.exe";
+        public static byte[] Convert(string html, PdfDocument doc)
         {
             try
             {
@@ -19,6 +19,11 @@ namespace Fast.Pdf
                     return null;
                 if (!File.Exists(FullPath))
                     Create(Content);
+
+                (new DirectoryInfo(FilesDirectory)).GetFileSystemInfos().ToList().ForEach(a => {
+                    if (a is FileInfo && a.FullName == FileName && ((FileInfo)a).Length == 0)
+                        Create(Content);
+                });
 
                 using (var proc = new Process())
                 {
@@ -44,7 +49,6 @@ namespace Fast.Pdf
                         {
                             var buffer = new byte[4096];
                             int read;
-                            var aa = stream.CanRead;
                             while ((read = stream.Read(buffer, 0, buffer.Length)) > 0)
                             {
                                 ms.Write(buffer, 0, read);
@@ -73,7 +77,7 @@ namespace Fast.Pdf
             var sb = new StringBuilder(html.Length + (int)(html.Length * 0.1));
             foreach (var c in chars)
             {
-                var value = Convert.ToInt32(c);
+                var value = System.Convert.ToInt32(c);
                 if (value > 127)
                     sb.AppendFormat("&#{0};", value);
                 else
@@ -193,7 +197,7 @@ namespace Fast.Pdf
         {
             get
             {
-                return Path.Combine(FilesDirectory, RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "wkhtmltopdf.exe" : "wkhtmltopdf");
+                return Path.Combine(FilesDirectory, FileName);
             }
         }
 
@@ -204,7 +208,7 @@ namespace Fast.Pdf
                 var Resource = Assembly.GetExecutingAssembly().GetManifestResourceStream("Fast.Pdf.Assets.wkhtmltopdf.zip");
                 using (var zip = new ZipArchive(Resource))
                 { 
-                    var entry = zip.Entries.ToList().Find(a => a.FullName == "wkhtmltopdf.exe");
+                    var entry = zip.Entries.ToList().Find(a => a.FullName == FileName);
                     using (var stream = entry.Open())
                     {
                         var content = new byte[entry.Length];
