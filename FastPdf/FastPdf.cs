@@ -21,7 +21,7 @@ namespace Fast.Pdf
                     Create(Content);
 
                 (new DirectoryInfo(FilesDirectory)).GetFileSystemInfos().ToList().ForEach(a => {
-                    if (a is FileInfo && a.FullName == FileName && ((FileInfo)a).Length == 0)
+                    if (a is FileInfo && a.Name == FileName && ((FileInfo)a).Length == 0)
                         Create(Content);
                 });
 
