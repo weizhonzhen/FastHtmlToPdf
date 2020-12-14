@@ -1,46 +1,22 @@
 ﻿using FastHtmlToPdf.Core.Model;
+using FastHtmlToPdf.Core.Threading;
 using System;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.Loader;
 
 namespace FastHtmlToPdf.Core
 {
-    public class HtmlToImage : AssemblyLoadContext
-    {
-        private Context.HtmlToImage pdf;
-        private AssemblyLoadContext context;
-        private Assembly assembly;
-        public HtmlToImage()
-        {
-            assembly = Assembly.Load("FastHtmlToPdf.Core");
-            context = GetLoadContext(assembly);
-            context.Unloading += Context_Unloading;
-        }
+    public class HtmlToImage
+	{
+		private static readonly HtmlToPdfQueue queue = new HtmlToPdfQueue();
+		private Context.HtmlToImage pdf = null;
 
-        private void Context_Unloading(AssemblyLoadContext obj)
-        {
-            pdf.Dispose();
-            assembly = null;
-            context = null;
-        }
+		public HtmlToImage()
+		{
+			queue.Invoke((Action)(() => pdf = new Context.HtmlToImage()));
+		}
 
-        public byte[] Convert(ImageDocument doc, string html)
-        {
-            foreach (var info in assembly.GetTypes().ToList())
-            {
-                if (info.FullName == "FastHtmlToPdf.Core.Context.HtmlToImage")
-                {
-                    pdf = Activator.CreateInstance(info) as Context.HtmlToImage;
-                    return pdf.Convert(doc, html);
-                }
-            }
-            throw new Exception("Convert error");
-        }
-
-        protected override Assembly Load(AssemblyName assemblyName)
-        {
-            throw new NotImplementedException();
-        }
-    }
+		public byte[] Convert(ImageDocument doc, string inputHtml)
+		{
+			return (byte[])queue.Invoke((Func<string, byte[]>)((x) => pdf.Convert(doc, x)), inputHtml);
+		}
+	}
 }

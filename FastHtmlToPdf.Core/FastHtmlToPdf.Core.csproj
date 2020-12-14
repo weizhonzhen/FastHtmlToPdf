@@ -5,13 +5,13 @@
     <RepositoryUrl>https://en.gravatar.com/userimage/151376774/1cba1ca23219db268cc5ed8abde11775.png</RepositoryUrl>
     <Description>FastHtmlToPdf create pdf by wkhtmltox
 https://github.com/weizhonzhen/FastHtmlToPdf</Description>
-    <PackageId>Fast.HtmlToPdf.core</PackageId>
+    <PackageId>Fast.HtmlToPdf.Core</PackageId>
     <Company>Fast.HtmlToPdf.Core</Company>
     <Product>Fast.HtmlToPdf.Core</Product>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <AssemblyName>FastHtmlToPdf.Core</AssemblyName>
     <RootNamespace>FastHtmlToPdf.Core</RootNamespace>
-    <Version>1.0.1</Version>
+    <Version>2.0</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -28,10 +28,6 @@ https://github.com/weizhonzhen/FastHtmlToPdf</Description>
 
   <ItemGroup>
     <EmbeddedResource Include="Assets\wkhtmltox.zip" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="System.Runtime.Loader" Version="4.3.0" />
   </ItemGroup>
 
 </Project>

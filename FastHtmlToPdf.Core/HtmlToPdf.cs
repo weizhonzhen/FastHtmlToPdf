@@ -1,46 +1,22 @@
 ﻿using FastHtmlToPdf.Core.Model;
+using FastHtmlToPdf.Core.Threading;
 using System;
-using System.Linq;
-using System.Reflection;
-using System.Runtime.Loader;
 
 namespace FastHtmlToPdf.Core
 {
-    public class HtmlToPdf : AssemblyLoadContext
-    {
-        private Context.HtmlToPdf pdf;
-        private AssemblyLoadContext context;
-        private Assembly assembly;
-        public HtmlToPdf()
-        {
-            assembly = Assembly.Load("FastHtmlToPdf.Core");
-            context = GetLoadContext(assembly);
-            context.Unloading += Context_Unloading;
-        }
+    public class HtmlToPdf
+	{
+		private static readonly HtmlToPdfQueue queue = new HtmlToPdfQueue();
+		private Context.HtmlToPdf pdf = null;
 
-        private void Context_Unloading(AssemblyLoadContext obj)
-        {
-            pdf.Dispose();
-            assembly = null;
-            context = null;
-        }
+		public HtmlToPdf()
+		{
+			queue.Invoke((Action)(() => pdf = new Context.HtmlToPdf()));
+		}
 
-        public byte[] Convert(PdfDocument doc, string html)
-        {
-            foreach (var info in assembly.GetTypes().ToList())
-            {
-                if (info.FullName == "FastHtmlToPdf.Core.Context.HtmlToPdf")
-                {
-                    pdf = Activator.CreateInstance(info) as Context.HtmlToPdf;
-                    return pdf.Convert(doc, html);
-                }
-            }
-            throw new Exception("Convert error");
-        }
-
-        protected override Assembly Load(AssemblyName assemblyName)
-        {
-            throw new NotImplementedException();
-        }
-    }
+		public byte[] Convert(PdfDocument doc, string inputHtml)
+		{
+			return (byte[])queue.Invoke((Func<string, byte[]>)((x) => pdf.Convert(doc, x)), inputHtml);
+		}
+	}
 }
