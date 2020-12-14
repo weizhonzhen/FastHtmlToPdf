@@ -7,25 +7,10 @@ namespace FastHtmlToPdf
 	public class HtmlToImage
 	{
 		private static readonly HtmlToPdfQueue queue = new HtmlToPdfQueue();
-		private static Context.HtmlToImage pdf = null;
 		private Context.HtmlToImage converter = null;
 
 		public HtmlToImage()
 		{
-			lock (queue)
-			{
-				if (pdf == null)
-				{
-					queue.Invoke((Action)(() => pdf = new Context.HtmlToImage()));
-
-					AppDomain.CurrentDomain.ProcessExit += (o, e) =>
-						queue.Invoke((Action)(() => {
-							pdf.Dispose();
-							pdf = null;
-						}));
-				}
-			}
-
 			queue.Invoke((Action)(() => converter = new Context.HtmlToImage()));
 		}
 
