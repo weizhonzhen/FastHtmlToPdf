@@ -46,10 +46,10 @@
   <ItemGroup>
     <Compile Include="Assets\ZipFile.cs" />
     <Compile Include="HtmlToImage.cs" />
-    <Compile Include="HtmlToPdf.cs" />
     <Compile Include="FormatEnum.cs" />
     <Compile Include="Context\HtmlToImage.cs" />
     <Compile Include="Context\HtmlToPdf.cs" />
+    <Compile Include="HtmlToPdf.cs" />
     <Compile Include="Interop\HtmlToImage.cs" />
     <Compile Include="Interop\HtmlToPdf.cs" />
     <Compile Include="Interop\IntCallback.cs" />
@@ -60,6 +60,12 @@
     <Compile Include="Model\Header.cs" />
     <Compile Include="Model\ImageDocument.cs" />
     <Compile Include="Model\PdfDocument.cs" />
+    <Compile Include="Threading\AsyncResult.cs" />
+    <Compile Include="Threading\HtmlToPdfQueue.cs" />
+    <Compile Include="Threading\InvokeCompletedEventArgs.cs" />
+    <Compile Include="Threading\PdfEnum.cs" />
+    <Compile Include="Threading\PostCompletedEventArgs.cs" />
+    <Compile Include="Threading\QueueAsyncResult.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

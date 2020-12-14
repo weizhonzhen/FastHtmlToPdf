@@ -1,33 +1,22 @@
 ﻿using FastHtmlToPdf.Model;
+using FastHtmlToPdf.Threading;
 using System;
 
 namespace FastHtmlToPdf
 {
     public class HtmlToImage
     {
-        private Context.HtmlToImage pdf;
-        private AppDomain domain;
+		private static readonly HtmlToPdfQueue queue = new HtmlToPdfQueue();
+		private Context.HtmlToImage pdf = null;
 
-        public HtmlToImage()
-        {
-            var setup = AppDomain.CurrentDomain.SetupInformation;
-            setup.LoaderOptimization = LoaderOptimization.SingleDomain;
-            domain = AppDomain.CreateDomain(Guid.NewGuid().ToString(), null, setup);
-            var handle = Activator.CreateInstanceFrom(domain, typeof(Context.HtmlToImage).Assembly.Location, typeof(Context.HtmlToImage).FullName);
-            pdf = handle.Unwrap() as Context.HtmlToImage;
-            if (AppDomain.CurrentDomain.IsDefaultAppDomain() == false)
-                AppDomain.CurrentDomain.DomainUnload += DomainUnload;
-        }
+		public HtmlToImage()
+		{
+			queue.Invoke((Action)(() => pdf = new Context.HtmlToImage()));
+		}
 
-        public byte[] Convert(ImageDocument doc, string html)
-        {
-            return pdf.Convert(doc, html);
-        }
-
-        private void DomainUnload(object sender, EventArgs e)
-        {
-            AppDomain.Unload(domain);
-            pdf.Dispose();
-        }
-    }
+		public byte[] Convert(ImageDocument doc, string inputHtml)
+		{
+			return (byte[])queue.Invoke((Func<string, byte[]>)((x) => pdf.Convert(doc, x)), inputHtml);
+		}
+	}
 }
