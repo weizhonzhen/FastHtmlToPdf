@@ -30,9 +30,7 @@ namespace FastHtmlToPdf.Threading
             waitHandle.Set();
 
             if (callback != null)
-            {
                 callback(this);
-            }
         }
 
         public object Owner

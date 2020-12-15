@@ -14,8 +14,6 @@ namespace FastHtmlToPdf.Threading
         private SynchronizationContext context;
         private Thread thread;
         private ISite site = null;
-        public event EventHandler<InvokeCompletedEventArgs> InvokeCompleted;
-        public event EventHandler<PostCompletedEventArgs> PostCompleted;
         public event EventHandler Disposed;
 
         public HtmlToPdfQueue()
@@ -54,7 +52,7 @@ namespace FastHtmlToPdf.Threading
             }
 
             SetSynchronizationContext(this);
-           QueueAsyncResult result = null;
+            QueueAsyncResult result = null;
 
             while (true)
             {
@@ -77,28 +75,6 @@ namespace FastHtmlToPdf.Threading
                 }
 
                 result.Invoke();
-
-                if (result.NotificationType == NotificationType.BeginInvokeCompleted)
-                {
-                    InvokeCompletedEventArgs e = new InvokeCompletedEventArgs(
-                        result.Method,
-                        result.GetArgs(),
-                        result.ReturnValue,
-                        result.Error);
-
-                    OnInvokeCompleted(e);
-                }
-                else if (result.NotificationType == NotificationType.PostCompleted)
-                {
-                    object[] args = result.GetArgs();
-
-                    PostCompletedEventArgs e = new PostCompletedEventArgs(
-                        (SendOrPostCallback)result.Method,
-                        args[0],
-                        result.Error);
-
-                    OnPostCompleted(e);
-                }
             }
         }
 
@@ -113,7 +89,7 @@ namespace FastHtmlToPdf.Threading
 
             if (InvokeRequired)
             {
-                var result = new QueueAsyncResult(this, method, args, NotificationType.None);
+                var result = new QueueAsyncResult(this, method, args);
 
                 lock (lockObject)
                 {
@@ -127,32 +103,6 @@ namespace FastHtmlToPdf.Threading
                 returnValue = method.DynamicInvoke(args);
 
             return returnValue;
-        }
-
-        protected virtual void OnInvokeCompleted(InvokeCompletedEventArgs e)
-        {
-            var handler = InvokeCompleted;
-
-            if (handler != null)
-            {
-                context.Post(delegate (object state)
-                {
-                    handler(this, e);
-                }, null);
-            }
-        }
-
-        protected virtual void OnPostCompleted(PostCompletedEventArgs e)
-        {
-            var handler = PostCompleted;
-
-            if (handler != null)
-            {
-                context.Post(delegate (object state)
-                {
-                    handler(this, e);
-                }, null);
-            }
         }
 
         #region IComponent
