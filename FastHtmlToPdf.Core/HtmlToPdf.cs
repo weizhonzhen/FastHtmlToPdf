@@ -4,7 +4,7 @@ using System;
 
 namespace FastHtmlToPdf.Core
 {
-	public class HtmlToPdf
+	public class HtmlToPdf : IDisposable
 	{
 		private static readonly HtmlToPdfQueue queue = new HtmlToPdfQueue();
 		private Context.HtmlToPdf converter = null;
@@ -17,6 +17,11 @@ namespace FastHtmlToPdf.Core
 		public byte[] Convert(PdfDocument doc, string inputHtml)
 		{
 			return (byte[])queue.Invoke((Func<string, byte[]>)((x) => converter.Convert(doc, x)), inputHtml);
+		}
+
+		public void Dispose()
+		{
+			converter.Dispose();
 		}
 	}
 }
