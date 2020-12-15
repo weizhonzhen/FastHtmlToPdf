@@ -8,7 +8,6 @@ namespace FastHtmlToPdf.Threading
     internal class HtmlToPdfQueue : SynchronizationContext, IComponent, ISynchronizeInvoke
     {
         private Queue<QueueAsyncResult> queue = new Queue<QueueAsyncResult>();
-        private volatile static uint threadID = 0;
         private volatile bool disposed = false;
         private readonly object lockObject = new object();
         private SynchronizationContext context;
@@ -38,7 +37,6 @@ namespace FastHtmlToPdf.Threading
 
             lock (lockObject)
             {
-                threadID++;
                 thread.Start();
                 Monitor.Wait(lockObject);
             }
