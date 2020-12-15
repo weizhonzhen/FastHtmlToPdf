@@ -12,13 +12,10 @@ namespace FastHtmlToPdf.Core.Threading
 
         private Exception error = null;
 
-        private NotificationType notificationType;
-
-        public QueueAsyncResult(object owner, Delegate method, object[] args,NotificationType notificationType) : base(owner, null, null)
+        public QueueAsyncResult(object owner, Delegate method, object[] args) : base(owner, null, null)
         {
             this.method = method;
             this.args = args;
-            this.notificationType = notificationType;
         }
 
         public void Invoke()
@@ -35,11 +32,6 @@ namespace FastHtmlToPdf.Core.Threading
             {
                 Signal();
             }
-        }
-
-        public object[] GetArgs()
-        {
-            return args;
         }
 
         public object ReturnValue
@@ -61,22 +53,5 @@ namespace FastHtmlToPdf.Core.Threading
                 error = value;
             }
         }
-
-        public Delegate Method
-        {
-            get
-            {
-                return method;
-            }
-        }
-
-        public NotificationType NotificationType
-        {
-            get
-            {
-                return notificationType;
-            }
-        }
     }
-
 }
