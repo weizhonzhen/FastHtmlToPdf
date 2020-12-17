@@ -46,6 +46,8 @@ FastPdf create pdf by wkhtmltopdf
       
 nuget url: https://www.nuget.org/packages/Fast.Pdf
 
+          using(var pdf = new FastPdf())
+          {
             var path = string.Format("{0}\\print.htm", System.AppDomain.CurrentDomain.BaseDirectory);
             var html = System.IO.File.ReadAllText(path);
             var doc = new PdfDocument();
@@ -61,6 +63,6 @@ nuget url: https://www.nuget.org/packages/Fast.Pdf
             doc.MarginBottom = 50;
             doc.MarginTop = 50;
                         
-            return File(FastPdf.ConvertHtmlString(html,doc), "application/pdf");
-                        
+            return File(pdf.Convert(doc,html), "application/pdf");
+          }
             page html must be include  "<!DOCTYPE html>"
