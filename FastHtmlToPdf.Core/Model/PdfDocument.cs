@@ -1,6 +1,8 @@
-﻿namespace FastHtmlToPdf.Core.Model
+﻿using System;
+
+namespace FastHtmlToPdf.Core.Model
 {
-    public class PdfDocument
+    public class PdfDocument : MarshalByRefObject
     {
         public bool DisplayHeader { get; set; }
 

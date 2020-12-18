@@ -1,8 +1,9 @@
 ﻿using FastHtmlToPdf.Core.Context;
+using System;
 
 namespace FastHtmlToPdf.Core.Model
 {
-    public class ImageDocument
+    public class ImageDocument : MarshalByRefObject
     {
         //public int MarginTop { get; set; }
 

@@ -1,6 +1,8 @@
-﻿namespace FastHtmlToPdf.Core.Model
+﻿using System;
+
+namespace FastHtmlToPdf.Core.Model
 {
-    public class Header
+    public class Header : MarshalByRefObject
     {
         public int FontSize { get; set; }
 
