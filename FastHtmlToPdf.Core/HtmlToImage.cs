@@ -21,9 +21,9 @@ namespace FastHtmlToPdf.Core
 
 		public void Dispose()
 		{
-			#if NETCOREAPP
-			converter.Dispose();
-			#endif
+			//#if NETCOREAPP
+			//converter.Dispose();
+			//#endif
 		}
 	}
 }
