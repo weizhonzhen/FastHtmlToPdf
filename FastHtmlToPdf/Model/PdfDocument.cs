@@ -8,6 +8,8 @@ namespace FastHtmlToPdf.Model
 
         public bool DisplayFooter { get; set; }
 
+        public string Host { get; set; }
+
         public Header Header { get; set; } = new Header();
 
         public Footer Footer { get; set; } = new Footer();

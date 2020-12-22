@@ -8,6 +8,8 @@ namespace FastHtmlToPdf.Model
 
         public string Url { get; set; }
 
+        public string Html { get; set; }
+
         public int Spacing { get; set; }
 
         public string Center { get; set; }
