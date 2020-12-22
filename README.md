@@ -18,6 +18,13 @@ nuget url: https://www.nuget.org/packages/Fast.HtmlToPdf
 
                 doc.DisplayHeader = true;
                 doc.Header.Url = "www.a.com"; 
+                
+                //by html header footer
+                doc.Host = HttpContext.Request.Host.Value;(net core)                
+                doc.Host = HttpContext.Request.Url.AbsoluteUri;(NET Framework)                
+                doc.Footer.Html="<b>test</b>";                
+                doc.Header.Html="<b>test</b>";
+                
                 doc.Header.Spacing = 10;
                                                        
                 return File(pdf.Convert(doc, html), "application/pdf");
