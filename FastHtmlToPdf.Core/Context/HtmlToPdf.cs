@@ -46,6 +46,10 @@ namespace FastHtmlToPdf.Core.Context
 
             var headerId = Guid.NewGuid().ToString();
             var footerId = Guid.NewGuid().ToString();
+
+            if (!Directory.Exists(Directory.GetCurrentDirectory() + "\\wwwroot"))
+                Directory.CreateDirectory(Directory.GetCurrentDirectory() + "\\wwwroot");
+                
             var headerPath = string.Format("{0}\\wwwroot\\{1}.html", Directory.GetCurrentDirectory(), headerId);
             var footerPath = string.Format("{0}\\wwwroot\\{1}.html", Directory.GetCurrentDirectory(), footerId);
 
