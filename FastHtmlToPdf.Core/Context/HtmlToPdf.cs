@@ -170,7 +170,10 @@ namespace FastHtmlToPdf.Core.Context
 
             StringCallback errorCallback = (converter, errorText) =>
             {
-                throw new Exception(errorText);
+                if (errorText.Contains(headerId) || errorText.Contains(footerId))
+                    throw new Exception("must use in startup.cs app.UseStaticFiles()");
+                else
+                    throw new Exception(errorText);
             };
 
             Interop.HtmlToPdf.wkhtmltopdf_set_error_callback(Converter, errorCallback);
