@@ -166,7 +166,10 @@ namespace FastHtmlToPdf.Context
 
             StringCallback errorCallback = (converter, errorText) =>
             {
-                throw new Exception(errorText);
+                if (errorText.Contains(headerId) || errorText.Contains(footerId))
+                    throw new Exception("doc.Host:" + doc.Host + " address error");
+                else
+                    throw new Exception(errorText);
             };
 
             Interop.HtmlToPdf.wkhtmltopdf_set_error_callback(Converter, errorCallback);
