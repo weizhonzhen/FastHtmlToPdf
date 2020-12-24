@@ -44,14 +44,47 @@ namespace FastHtmlToPdf.Core.Context
             if (doc == null)
                 throw new Exception("Fast.HtmlToPdf PdfDocument is not null");
 
+            var headerPath = string.Empty;
+            var footerPath = string.Empty;
             var headerId = Guid.NewGuid().ToString();
             var footerId = Guid.NewGuid().ToString();
+            var path = string.Format("{0}\\wwwroot", Directory.GetCurrentDirectory());
+            if (doc.DisplayHeader && !string.IsNullOrEmpty(doc.Header.Html) && !string.IsNullOrEmpty(doc.Host))
+            {
+                if (!Directory.Exists(path))
+                    Directory.CreateDirectory(path);
+                headerPath = string.Format("{0}\\wwwroot\\{1}.html", Directory.GetCurrentDirectory(), headerId);
+        
+                doc.Header.Url = string.Format("{0}/{1}.html", doc.Host, headerId);
+                using (var fs = File.Create(headerPath))
+                {
+                    using (var writer = new StreamWriter(fs, Encoding.UTF8))
+                    {
+                        if (doc.Header.Html.Contains("<!DOCTYPE html>"))
+                            writer.Write(doc.Header.Html);
+                        else
+                            writer.Write(string.Format("<!DOCTYPE html>{0}", doc.Header.Html));
+                    }
+                }
+            }
 
-            if (!Directory.Exists(Directory.GetCurrentDirectory() + "\\wwwroot"))
-                Directory.CreateDirectory(Directory.GetCurrentDirectory() + "\\wwwroot");
-                
-            var headerPath = string.Format("{0}\\wwwroot\\{1}.html", Directory.GetCurrentDirectory(), headerId);
-            var footerPath = string.Format("{0}\\wwwroot\\{1}.html", Directory.GetCurrentDirectory(), footerId);
+            if (doc.DisplayFooter && !string.IsNullOrEmpty(doc.Footer.Html) && !string.IsNullOrEmpty(doc.Host))
+            {
+                if (!Directory.Exists(path))
+                    Directory.CreateDirectory(path);
+                footerPath = string.Format("{0}\\wwwroot\\{1}.html", Directory.GetCurrentDirectory(), footerId);                
+                doc.Footer.Url = string.Format("{0}/{1}.html", doc.Host, footerId);
+                using (var fs = File.Create(footerPath))
+                {
+                    using (var writer = new StreamWriter(fs, Encoding.UTF8))
+                    {
+                        if (doc.Footer.Html.Contains("<!DOCTYPE html>"))
+                            writer.Write(doc.Footer.Html);
+                        else
+                            writer.Write(string.Format("<!DOCTYPE html>{0}", doc.Footer.Html));
+                    }
+                }
+            }
 
             #region object set
             Interop.HtmlToPdf.wkhtmltopdf_set_object_setting(ObjectSettings, "web.defaultEncoding", "utf-8");
@@ -63,28 +96,6 @@ namespace FastHtmlToPdf.Core.Context
 
             if (doc.DisplayHeader)
             {
-                if (!string.IsNullOrEmpty(doc.Header.Html) && !string.IsNullOrEmpty(doc.Host))
-                {
-                    using (var fs = File.Create(headerPath))
-                    {
-                        using (var writer = new StreamWriter(fs, Encoding.UTF8))
-                        {
-                            if (doc.Header.Html.Contains("<!DOCTYPE html>"))
-                                writer.Write(doc.Header.Html);
-                            else
-                                writer.Write(string.Format("<!DOCTYPE html>{0}", doc.Header.Html));
-                        }
-                    }
-
-                    if (!doc.Host.Contains("http://"))
-                        doc.Host = "http://" + doc.Host;
-
-                    if (doc.Host.Substring(doc.Host.Length - 1, 1) == "/")
-                        doc.Header.Url = string.Format("{0}{1}.html", doc.Host, headerId);
-                    else
-                        doc.Header.Url = string.Format("{0}/{1}.html", doc.Host, headerId);
-                }
-
                 if (doc.Header.FontSize != 0)
                     Interop.HtmlToPdf.wkhtmltopdf_set_object_setting(ObjectSettings, "header.fontSize", doc.Header.FontSize.ToString());
                 if (doc.Header.Spacing != 0)
@@ -105,25 +116,6 @@ namespace FastHtmlToPdf.Core.Context
 
             if (doc.DisplayFooter)
             {
-                if (!string.IsNullOrEmpty(doc.Footer.Html) && !string.IsNullOrEmpty(doc.Host))
-                {
-                    using (var fs = File.Create(footerPath))
-                    {
-                        using (var writer = new StreamWriter(fs, Encoding.UTF8))
-                        {
-                            if (doc.Footer.Html.Contains("<!DOCTYPE html>"))
-                                writer.Write(doc.Footer.Html);
-                            else
-                                writer.Write(string.Format("<!DOCTYPE html>{0}", doc.Footer.Html));
-                        }
-                    }
-
-                    if (doc.Host.Substring(doc.Host.Length - 1, 1) == "/")
-                        doc.Footer.Url = string.Format("{0}{1}.html", doc.Host, footerId);
-                    else
-                        doc.Footer.Url = string.Format("{0}/{1}.html", doc.Host, footerId);
-                }
-
                 if (doc.Footer.FontSize != 0)
                     Interop.HtmlToPdf.wkhtmltopdf_set_object_setting(ObjectSettings, "footer.fontSize", doc.Footer.FontSize.ToString());
                 if (doc.Footer.Spacing != 0)
@@ -186,8 +178,13 @@ namespace FastHtmlToPdf.Core.Context
                 var result = new byte[len];
                 Marshal.Copy(tmp, result, 0, result.Length);
                 tmp = IntPtr.Zero;
-                File.Delete(headerPath);
-                File.Delete(footerPath);
+
+                if (!string.IsNullOrEmpty(headerPath))
+                    File.Delete(headerPath);
+
+                if (!string.IsNullOrEmpty(footerPath))
+                    File.Delete(footerPath);
+
                 return result;
             }
             else
