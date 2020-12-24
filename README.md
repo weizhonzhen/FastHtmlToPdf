@@ -23,7 +23,7 @@ nuget url: https://www.nuget.org/packages/Fast.HtmlToPdf.core for net core
                 
                 //by html header footer
                 doc.Host = HttpContext.Request.Host.Value;(net core)                
-                doc.Host = HttpContext.Request.Url.AbsoluteUri;(NET Framework)                
+                doc.Host = HttpContext.Request.Url;(NET Framework)                
                 doc.Footer.Html="<b>test</b>";                
                 doc.Header.Html="<b>test</b>";
                 
@@ -53,7 +53,9 @@ nuget url: https://www.nuget.org/packages/Fast.HtmlToPdf.core for net core
 # FastPdf
 FastPdf create pdf by wkhtmltopdf
       
-nuget url: https://www.nuget.org/packages/Fast.Pdf
+nuget url: https://www.nuget.org/packages/Fast.Pdf for net framework 
+
+nuget url: https://www.nuget.org/packages/Fast.Pdf for net core 
 
           using(var pdf = new FastPdf())
           {
