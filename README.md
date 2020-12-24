@@ -2,6 +2,7 @@
 FastHtmlToPdf create pdf by wkhtmltox
       
 nuget url: https://www.nuget.org/packages/Fast.HtmlToPdf for net framework 
+
 nuget url: https://www.nuget.org/packages/Fast.HtmlToPdf.core for net core 
           
                     
