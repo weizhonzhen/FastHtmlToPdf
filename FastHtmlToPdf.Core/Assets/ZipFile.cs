@@ -4,6 +4,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 
 namespace FastHtmlToPdf.Core.Assets
 {
@@ -86,10 +87,9 @@ namespace FastHtmlToPdf.Core.Assets
         {
             get
             {
-                var platform = Enum.GetName(typeof(PlatformID), Environment.OSVersion.Platform);
-                if (Environment.OSVersion.Platform != PlatformID.Win32NT)
-                    throw new Exception(String.Format("Platform {0} is not supported", platform));
-
+                if (!RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                    throw new Exception("FastHtmlToPdf is on Windows");
+                
                 var resource = Assembly.GetExecutingAssembly().GetManifestResourceStream("FastHtmlToPdf.Core.Assets.wkhtmltox.zip");
                 using (var zip = new ZipArchive(resource))
                 {
