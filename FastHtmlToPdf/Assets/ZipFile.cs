@@ -87,7 +87,7 @@ namespace FastHtmlToPdf.Assets
             {
                 var platform = Enum.GetName(typeof(PlatformID), Environment.OSVersion.Platform);
                 if (Environment.OSVersion.Platform != PlatformID.Win32NT)
-                    throw new Exception(String.Format("Platform {0} is not supported", platform));
+                    throw new Exception("FastHtmlToPdf is on Windows");
 
                 var resource = Assembly.GetExecutingAssembly().GetManifestResourceStream("FastHtmlToPdf.Assets.wkhtmltox.zip");
                 using (var zip = new ZipArchive(resource))
