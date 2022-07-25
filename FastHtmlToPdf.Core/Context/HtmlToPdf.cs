@@ -1,5 +1,4 @@
-﻿using FastHtmlToPdf.Core.Assets;
-using FastHtmlToPdf.Core.Interop;
+﻿using FastHtmlToPdf.Core.Interop;
 using FastHtmlToPdf.Core.Model;
 using System;
 using System.IO;
@@ -12,12 +11,10 @@ namespace FastHtmlToPdf.Core.Context
     {
         private IntPtr GlobalSettings;
         private IntPtr Converter;
-        private ZipFile zip;
         private IntPtr ObjectSettings;
 
         public HtmlToPdf()
         {
-            zip = new ZipFile();
             Interop.HtmlToPdf.wkhtmltopdf_init(0);
             GlobalSettings = Interop.HtmlToPdf.wkhtmltopdf_create_global_settings();
             Converter = Interop.HtmlToPdf.wkhtmltopdf_create_converter(GlobalSettings);
@@ -31,8 +28,6 @@ namespace FastHtmlToPdf.Core.Context
             Interop.HtmlToPdf.wkhtmltopdf_destroy_global_settings(GlobalSettings);
             Interop.HtmlToPdf.wkhtmltopdf_destroy_object_settings(ObjectSettings);
             Interop.HtmlToPdf.wkhtmltopdf_deinit();
-            zip.Dispose();
-            zip = null;
             GlobalSettings = IntPtr.Zero;
             Converter = IntPtr.Zero;
             ObjectSettings = IntPtr.Zero;

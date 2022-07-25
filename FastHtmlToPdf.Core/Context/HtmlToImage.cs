@@ -1,5 +1,4 @@
-﻿using FastHtmlToPdf.Core.Assets;
-using FastHtmlToPdf.Core.Interop;
+﻿using FastHtmlToPdf.Core.Interop;
 using FastHtmlToPdf.Core.Model;
 using System;
 using System.Runtime.InteropServices;
@@ -11,11 +10,9 @@ namespace FastHtmlToPdf.Core.Context
     {
         private IntPtr GlobalSettings;
         private IntPtr Converter;
-        private ZipFile zip;
 
         public HtmlToImage()
         {
-            zip = new ZipFile();
             Interop.HtmlToImage.wkhtmltoimage_init(0);
             GlobalSettings = Interop.HtmlToImage.wkhtmltoimage_create_global_settings();
         }
@@ -25,8 +22,6 @@ namespace FastHtmlToPdf.Core.Context
                 Interop.HtmlToImage.wkhtmltoimage_destroy_converter(Converter);
 
             Interop.HtmlToImage.wkhtmltoimage_deinit();
-            zip.Dispose();
-            zip = null;
             GlobalSettings = IntPtr.Zero;
             Converter = IntPtr.Zero;
             GC.SuppressFinalize(this);
