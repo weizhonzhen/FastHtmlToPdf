@@ -8,14 +8,14 @@ namespace Microsoft.Extensions.DependencyInjection
         public static IServiceCollection AddFastHtmlToPdf(this IServiceCollection serviceCollection)
         {
             new ZipFile();
-            serviceCollection.AddScoped<IHtmlToPdf, HtmlToPdf>();
+            serviceCollection.AddTransient<IHtmlToPdf, HtmlToPdf>();
             return serviceCollection;
         }
 
         public static IServiceCollection AddFastHtmlToImage(this IServiceCollection serviceCollection)
         {
             new ZipFile();
-            serviceCollection.AddScoped<IHtmlToImage, HtmlToImage>();
+            serviceCollection.AddTransient<IHtmlToImage, HtmlToImage>();
             return serviceCollection;
         }
     }
