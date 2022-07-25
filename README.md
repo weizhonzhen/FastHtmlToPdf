@@ -5,6 +5,12 @@ nuget url: https://www.nuget.org/packages/Fast.HtmlToPdf for net framework
 
 nuget url: https://www.nuget.org/packages/Fast.HtmlToPdf.core for net core 
           
+           services.AddFastHtmlToImage();
+           services.AddFastHtmlToPdf();
+                    
+          IHtmlToPdf htmlToPdf;
+          IHtmlToImage htmlToImage;       
+                   
                     
            using(var pdf = new HtmlToPdf())
            {
@@ -28,7 +34,8 @@ nuget url: https://www.nuget.org/packages/Fast.HtmlToPdf.core for net core
                 doc.Header.Html="<b>test</b>";
                 
                 doc.Header.Spacing = 10;
-                                                       
+                                             
+                htmlToPdf.Convert(doc, html);
                 return File(pdf.Convert(doc, html), "application/pdf");
             }
             
@@ -45,6 +52,8 @@ nuget url: https://www.nuget.org/packages/Fast.HtmlToPdf.core for net core
                 doc.Height = 800;
                 doc.Format = FormatEnum.png;
 
+
+                htmlToImage.Convert(doc, html);
                 var bytes = img.Convert(doc, html);
                 return File(bytes, "image/png");
             }
